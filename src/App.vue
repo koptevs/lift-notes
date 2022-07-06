@@ -1,81 +1,47 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from "vue";
+import HelloWorld from "./components/HelloWorld.vue";
+import nbs from "./data";
+const checked = ref(true);
+console.log(nbs.length);
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+	<div class="px-16 py-4">
+		<header>
+			<HelloWorld msg="Liftu neatbilstību apraksts" />
+			<HelloWorld :msg="greeting" />
+		</header>
+		<p>
+			<input type="text" v-model="greeting" />
+		</p>
+		<button v-bind:class="
+			active ? 'bg-slate-400 px-4 py-2 text-white hover:bg-slate-600' : 'bg-red-400 px-4 py-2 text-white hover:bg-red-600'
+		" v-on:click="toggle">
+			Click me
+		</button>
+		<main>
+			<p v-for="(nb, index) in nbs" class="text-base" :key="index">
+				<input type="checkbox" id="checkbox" v-model="checked" />
+				<label for="checkbox">{{ checked }} - index {{ index }} </label><br />
+				{{ nb }}
+			</p>
+		</main>
+	</div>
 </template>
 
-<style>
-@import './assets/base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-}
-</style>
+<script>
+export default {
+	data() {
+		return {
+			greeting: "Hello worlds",
+			active: true,
+		};
+	},
+	methods: {
+		toggle() {
+			this.active = !this.active;
+		},
+	},
+};
+</script>

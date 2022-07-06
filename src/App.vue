@@ -1,31 +1,34 @@
-<script setup>
-import { ref } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
-import nbs from "./data";
-const checked = ref(true);
-console.log(nbs.length);
-</script>
-
 <template>
-	<div class="px-16 py-4">
+	<div class="px-4 sm:px-8 py-4">
+
 		<header>
-			<HelloWorld msg="Liftu neatbilstību apraksts" />
-			<HelloWorld :msg="greeting" />
+			<h1 class="text-4xl font-bold text-center text-red-500">Liftu neatbilstību apraksts</h1>
 		</header>
-		<p>
-			<input type="text" v-model="greeting" />
-		</p>
-		<button v-bind:class="
-			active ? 'bg-slate-400 px-4 py-2 text-white hover:bg-slate-600' : 'bg-red-400 px-4 py-2 text-white hover:bg-red-600'
-		" v-on:click="toggle">
-			Click me
-		</button>
+
 		<main>
-			<p v-for="(nb, index) in nbs" class="text-base" :key="index">
-				<input type="checkbox" id="checkbox" v-model="checked" />
-				<label for="checkbox">{{ checked }} - index {{ index }} </label><br />
-				{{ nb }}
-			</p>
+
+			<section id="input">
+				<h2 class="text-2xl font-bold text-red-500">Input</h2>
+				<ul>
+					<li v-for="(nb, index) in neatbilstibas" class="text-xl" :key="index">
+						<label>
+							<input type="checkbox" v-model="nb.checked">
+							{{ nb.name }}
+						</label>
+					</li>
+				</ul>
+			</section>
+
+			<section id="output">
+				<h2 class="text-2xl font-bold text-red-500">Output</h2>
+				<ul>
+					<li v-for="(nb, index) in neatbilstibas.filter(n => n.checked).sort((a, b) => a.name.slice(0,2) - b.name.slice(0,2))" class="text-base" :key="index">
+						{{ nb.name }}
+					</li>
+				</ul>
+				<!-- <pre>{{ neatbilstibas }}</pre> -->
+			</section>
+
 		</main>
 	</div>
 </template>
@@ -36,6 +39,16 @@ export default {
 		return {
 			greeting: "Hello worlds",
 			active: true,
+			neatbilstibas: [
+				{ name: '1.4 - Mašīntelpas durvīm nav brīdinājuma uzraksta "Lifta mašīntelpa - bīstami".', checked: false },
+				{ name: '3.1 - Nevar atvērt mašīntelpu no iekšpuses bez atslēgas ja tā ir aizvērta no ārpuses ar atslēgu.', checked: false },
+				{ name: '1.4 - Lūkai mašīntelpā nav brīdinājuma zīmes par nokrišanas draudiem.', checked: false },
+				{ name: '3.1 - Mašīntelpā lūka ir bojāta', checked: false },
+				{ name: '3.6 - Nav vādskriemeļa aizarga pret trošu noslīdēšanas.', checked: false },
+				{ name: '3.6 - Nav vādskriemeļa aizsarga pret svešķermeņu iekļūšanas starp trosēm un rievām.', checked: false },
+				{ name: '3.6 - Nav vādskriemeļa aizsarga pret trošu noslīdēšanas un svešķermeņu iekļūšanas starp trosēm un rievām.', checked: false },
+				{ name: '3.6 - Eļļas noplūde no lifta mašīnas reduktora.', checked: false }
+			]
 		};
 	},
 	methods: {
